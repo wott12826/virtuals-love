@@ -30,6 +30,13 @@ export default function ChatPage() {
   useEffect(() => {
     if (!currentCharacter) {
       router.push('/');
+      return;
+    }
+    
+    // Проверяем, является ли персонаж Rei и заблокирован ли он
+    if (currentCharacter.id === 'rei' && currentCharacter.locked) {
+      router.push('/');
+      return;
     }
   }, [currentCharacter, router]);
 

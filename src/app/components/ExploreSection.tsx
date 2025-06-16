@@ -68,7 +68,10 @@ export default function ExploreSection() {
     }));
   };
 
-  const isLocked = (index: number) => index >= 4;
+  const isLocked = (index: number) => {
+    const character = characters[index];
+    return character.id === 'rei' ? true : index >= 3;
+  };
 
   const handleCardClick = (index: number) => {
     if (!isLocked(index)) {
@@ -204,7 +207,7 @@ export default function ExploreSection() {
                       height={16}
                       className="w-4 h-4 bg-coin"
                     />
-                    <span className="text-pink-500 font-bold text-sm">100M</span>
+                    <span className="text-pink-500 font-bold text-sm">{character.name === 'Rei' ? '1M' : '100M'}</span>
                   </motion.div>
                 </div>
               )}

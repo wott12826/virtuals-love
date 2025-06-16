@@ -111,6 +111,17 @@ export default function Navbar() {
             </motion.div>
             {/* Buy $FLIRT — только на мобильных */}
             <div className="flex sm:hidden items-center ml-auto mobile-pl-20">
+              {connected && publicKey && (
+                tokenBalance !== '0' ? (
+                  <span className="text-white font-bold text-base bg-pink-500/80 rounded-lg px-3 py-1 mr-2">
+                    $FLIRT: {tokenBalance}
+                  </span>
+                ) : (
+                  <span className="text-gray-300 font-bold text-base bg-gray-700/80 rounded-lg px-3 py-1 mr-2">
+                    Balance: 0
+                  </span>
+                )
+              )}
               <button
                 type="button"
                 onClick={handleBuyFlirt}
@@ -135,14 +146,23 @@ export default function Navbar() {
               {connected && publicKey ? (
                 <>
                   {publicKey.slice(0, 4)}...{publicKey.slice(-4)}
-                  {tokenBalance !== '0' && (
-                    <span className="ml-2">| $FLIRT: {tokenBalance}</span>
-                  )}
                 </>
               ) : (
                 'Connect Wallet'
               )}
             </button>
+            {/* Баланс $FLIRT — только если кошелёк подключён */}
+            {connected && publicKey && (
+              tokenBalance !== '0' ? (
+                <span className="text-white font-bold text-base bg-pink-500/80 rounded-lg px-3 py-1 mx-2">
+                  $FLIRT: {tokenBalance}
+                </span>
+              ) : (
+                <span className="text-gray-300 font-bold text-base bg-gray-700/80 rounded-lg px-3 py-1 mx-2">
+                  Balance: 0
+                </span>
+              )
+            )}
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -179,13 +199,29 @@ export default function Navbar() {
                   {connected && publicKey ? (
                     <>
                       {publicKey.slice(0, 4)}...{publicKey.slice(-4)}
-                      {tokenBalance !== '0' && (
-                        <span className="ml-2">| $FLIRT: {tokenBalance}</span>
-                      )}
                     </>
                   ) : (
                     'Connect Wallet'
                   )}
+                </button>
+                {/* Баланс $FLIRT — только если кошелёк подключён */}
+                {connected && publicKey && (
+                  tokenBalance !== '0' ? (
+                    <span className="text-white font-bold text-base bg-pink-500/80 rounded-lg px-3 py-1 mx-2">
+                      $FLIRT: {tokenBalance}
+                    </span>
+                  ) : (
+                    <span className="text-gray-300 font-bold text-base bg-gray-700/80 rounded-lg px-3 py-1 mx-2">
+                      Balance: 0
+                    </span>
+                  )
+                )}
+                <button
+                  type="button"
+                  onClick={handleBuyFlirt}
+                  className="relative bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-lg text-base font-medium hover:from-pink-600 hover:to-purple-600 transition-all duration-200 transform hover:-translate-y-0.5 animate-borderGlow whitespace-nowrap"
+                >
+                  Buy $FLIRT
                 </button>
               </div>
             </motion.div>

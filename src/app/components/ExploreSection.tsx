@@ -272,9 +272,9 @@ export default function ExploreSection() {
         {/* Modal */}
         {showModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="bg-gradient-to-r from-pink-500 to-purple-500 p-6 rounded-lg shadow-lg text-white">
               <h2 className="text-xl font-bold mb-4">Under Development</h2>
-              <button onClick={() => setShowModal(false)} className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition-colors mx-auto block">Close</button>
+              <button onClick={() => setShowModal(false)} className="bg-white text-pink-500 px-4 py-2 rounded hover:bg-gray-100 transition-colors mx-auto block">Close</button>
             </div>
           </div>
         )}

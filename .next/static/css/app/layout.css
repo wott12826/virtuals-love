@@ -1567,6 +1567,10 @@ body {
   --tw-bg-opacity: 1;
   background-color: rgb(219 39 119 / var(--tw-bg-opacity));
 }
+.hover\:bg-gray-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
 .hover\:from-pink-600:hover {
   --tw-gradient-from: #db2777;
   --tw-gradient-to: rgb(219 39 119 / 0);

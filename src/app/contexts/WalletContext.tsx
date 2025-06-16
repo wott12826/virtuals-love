@@ -27,6 +27,7 @@ interface WalletContextType {
   tokenBalance: string;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
+  setTokenBalance: (balance: string) => void;
 }
 
 const WalletContext = createContext<WalletContextType>({
@@ -37,6 +38,7 @@ const WalletContext = createContext<WalletContextType>({
   tokenBalance: '0',
   connect: async () => {},
   disconnect: async () => {},
+  setTokenBalance: () => {},
 });
 
 export function useWallet() {
@@ -52,7 +54,12 @@ export function WalletProvider({ children }: WalletProviderProps) {
   const [connected, setConnected] = useState(false);
   const [publicKey, setPublicKey] = useState<string | null>(null);
   const [connecting, setConnecting] = useState(false);
-  const [tokenBalance, setTokenBalance] = useState('0');
+  const [tokenBalance, setTokenBalance] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('tokenBalance') || '0';
+    }
+    return '0';
+  });
 
   // Initialize Solana connection
   const connection = new Connection('https://api.mainnet-beta.solana.com');
@@ -70,13 +77,15 @@ export function WalletProvider({ children }: WalletProviderProps) {
       
       if (flirtToken) {
         const amount = parseFloat(flirtToken.tokenAmount.amount) / Math.pow(10, flirtToken.tokenAmount.decimals);
-        setTokenBalance(amount.toLocaleString());
+        if (amount > 0) {
+          setTokenBalance(amount.toLocaleString());
+        }
       } else {
-        setTokenBalance('0');
+        // если токен не найден, не обновляем tokenBalance
       }
     } catch (error) {
       console.error('Error fetching token balance:', error);
-      setTokenBalance('0');
+      // не обновляем tokenBalance при ошибке
     }
   };
 
@@ -127,6 +136,12 @@ export function WalletProvider({ children }: WalletProviderProps) {
     }
   }, [wallet]);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('tokenBalance', tokenBalance);
+    }
+  }, [tokenBalance]);
+
   const connect = async () => {
     if (wallet) {
       try {
@@ -160,6 +175,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
         tokenBalance,
         connect,
         disconnect,
+        setTokenBalance,
       }}
     >
       {children}

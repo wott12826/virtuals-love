@@ -43,6 +43,15 @@ export default function Navbar() {
     }
   };
 
+  function formatBalanceMString(balance: string): string {
+    const num = parseFloat(balance.replace(/[^\d.]/g, ''));
+    if (isNaN(num)) return balance;
+    if (num >= 1_000_000) {
+      return (num / 1_000_000).toFixed(num % 1_000_000 === 0 ? 0 : 1) + 'M';
+    }
+    return num.toLocaleString();
+  }
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0b0d0e]/95 backdrop-blur-md border-gray-800 border-b transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
@@ -118,7 +127,7 @@ export default function Navbar() {
                   </span>
                 ) : (
                   <span className="text-gray-300 font-bold text-base bg-gray-700/80 rounded-lg px-3 py-1 mr-2">
-                    Balance: 0
+                    Balance: {formatBalanceMString(tokenBalance)}
                   </span>
                 )
               )}
@@ -159,7 +168,7 @@ export default function Navbar() {
                 </span>
               ) : (
                 <span className="text-gray-300 font-bold text-base bg-gray-700/80 rounded-lg px-3 py-1 mx-2">
-                  Balance: 0
+                  Balance: {formatBalanceMString(tokenBalance)}
                 </span>
               )
             )}
@@ -212,7 +221,7 @@ export default function Navbar() {
                     </span>
                   ) : (
                     <span className="text-gray-300 font-bold text-base bg-gray-700/80 rounded-lg px-3 py-1 mx-2">
-                      Balance: 0
+                      Balance: {formatBalanceMString(tokenBalance)}
                     </span>
                   )
                 )}

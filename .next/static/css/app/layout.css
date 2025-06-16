@@ -792,6 +792,9 @@ video {
 .max-w-\[80\%\] {
   max-width: 80%;
 }
+.max-w-xs {
+  max-width: 20rem;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1073,6 +1076,9 @@ video {
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
+.bg-opacity-60 {
+  --tw-bg-opacity: 0.6;
+}
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
@@ -1316,6 +1322,13 @@ video {
 .text-gray-100 {
   --tw-text-opacity: 1;
   color: rgb(243 244 246 / var(--tw-text-opacity));
+}
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+.underline {
+  text-decoration-line: underline;
 }
 .antialiased {
   -webkit-font-smoothing: antialiased;

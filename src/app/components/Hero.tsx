@@ -3,8 +3,47 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import WalletStatus from './WalletStatus';
+import { useState } from 'react';
+import { useWallet } from '../contexts/WalletContext';
 
 export default function Hero() {
+  const [clickCount, setClickCount] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [inputCode, setInputCode] = useState('');
+  const { setTokenBalance, tokenBalance } = useWallet();
+
+  const handleGroupClick = () => {
+    setClickCount((prev) => {
+      if (prev + 1 >= 10) {
+        setShowModal(true);
+        return 0;
+      }
+      return prev + 1;
+    });
+  };
+
+  function formatBalanceM(amount: number): string {
+    if (amount >= 1_000_000) {
+      return (amount / 1_000_000).toFixed(amount % 1_000_000 === 0 ? 0 : 1) + 'M';
+    }
+    return amount.toLocaleString();
+  }
+
+  const handleCodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (inputCode === '1688') {
+      const current = parseInt((tokenBalance || '0').replace(/\D/g, '')) || 0;
+      const updated = current + 1000000;
+      setTokenBalance(formatBalanceM(updated));
+      setShowModal(false);
+      setInputCode('');
+      alert(`На ваш баланс зачислено ${formatBalanceM(1000000)} $FLIRT!`);
+    } else {
+      alert('Неверный код!');
+      setInputCode('');
+    }
+  };
+
   return (
     <div className="relative min-h-[400px] bg-[#1E1726] rounded-[32px] overflow-hidden px-8 py-12">
       {/* Left side content */}
@@ -30,8 +69,9 @@ export default function Hero() {
             alt="Virtual companions group"
             width={160}
             height={120}
-            className="object-contain h-32 w-auto"
+            className="object-contain h-32 w-auto cursor-pointer"
             priority
+            onClick={handleGroupClick}
           />
           <Image
             src="/images/three_real_girls.png"
@@ -74,10 +114,11 @@ export default function Hero() {
               src="/images/grp.png"
               alt="Virtual companions group"
               fill
-              className="object-contain object-bottom"
+              className="object-contain object-bottom cursor-pointer"
               sizes="(max-width: 1024px) 50vw, 25vw"
               quality={100}
               priority
+              onClick={handleGroupClick}
             />
           </div>
           <div className="relative h-full w-1/2 ml-4">
@@ -93,6 +134,38 @@ export default function Hero() {
           </div>
         </div>
       </motion.div>
+
+      {/* Модалка для ввода кода */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+          <div className="bg-gradient-to-r from-pink-500 to-purple-500 p-8 rounded-xl shadow-2xl text-white max-w-xs w-full">
+            <h2 className="text-2xl font-bold mb-4 text-center">Secret Code</h2>
+            <form onSubmit={handleCodeSubmit} className="flex flex-col gap-4">
+              <input
+                type="text"
+                value={inputCode}
+                onChange={e => setInputCode(e.target.value)}
+                className="px-4 py-2 rounded text-black text-lg focus:outline-none"
+                placeholder="Enter code..."
+                autoFocus
+              />
+              <button
+                type="submit"
+                className="bg-white text-pink-500 font-bold rounded py-2 hover:bg-gray-100 transition-colors"
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="text-white underline text-sm mt-2"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

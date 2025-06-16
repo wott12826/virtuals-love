@@ -14,6 +14,35 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleBuyFlirt = async () => {
+    const FLIRT_TOKEN_MINT = 'FLIRT_TOKEN_MINT_PLACEHOLDER';
+    const RECEIVER_ADDRESS = 'RECEIVER_ADDRESS_PLACEHOLDER';
+    const AMOUNT = 1; // Количество токенов для покупки
+
+    if (typeof window === 'undefined' || !window.solana) {
+      alert('Установите Phantom Wallet для покупки $FLIRT.');
+      return;
+    }
+
+    const provider = window.solana as any;
+    if (!provider.isPhantom) {
+      alert('Установите Phantom Wallet для покупки $FLIRT.');
+      return;
+    }
+
+    try {
+      // Подключение кошелька, если не подключён
+      const resp = await provider.connect();
+      const publicKey = resp.publicKey?.toString() || 'unknown';
+      // Здесь будет логика создания и отправки транзакции
+      alert(
+        `Phantom подключён!\n\nMint: ${FLIRT_TOKEN_MINT}\nПолучатель: ${RECEIVER_ADDRESS}\nСумма: ${AMOUNT}\n\n(Здесь будет отправка транзакции)`
+      );
+    } catch (e) {
+      alert('Не удалось подключить Phantom или пользователь отменил подключение.');
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0b0d0e]/95 backdrop-blur-md border-gray-800 border-b transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
@@ -82,14 +111,13 @@ export default function Navbar() {
             </motion.div>
             {/* Buy $FLIRT — только на мобильных */}
             <div className="flex sm:hidden items-center ml-auto mobile-pl-20">
-              <Link
-                href="oldlink"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={handleBuyFlirt}
                 className="relative bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-lg text-base font-medium hover:from-pink-600 hover:to-purple-600 transition-all duration-200 transform hover:-translate-y-0.5 animate-borderGlow whitespace-nowrap"
               >
                 Buy $FLIRT
-              </Link>
+              </button>
             </div>
           </motion.div>
 
@@ -119,14 +147,13 @@ export default function Navbar() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link
-                href="oldlink"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={handleBuyFlirt}
                 className="relative bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-lg text-base font-medium hover:from-pink-600 hover:to-purple-600 transition-all duration-200 transform hover:-translate-y-0.5 animate-borderGlow whitespace-nowrap"
               >
                 Buy $FLIRT
-              </Link>
+              </button>
             </motion.div>
           </motion.div>
 

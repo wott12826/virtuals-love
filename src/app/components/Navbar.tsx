@@ -107,34 +107,30 @@ export default function Navbar() {
                 href="oldlink"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white hover:text-pink-400 transition-colors p-1"
+                className="text-white hover:text-pink-400 transition-colors p-1 max-w-[28px]"
               >
                 <Image
                   src="/images/dexscreener_logo.jpg"
                   alt="Dexscreener"
                   width={20}
                   height={20}
-                  className="w-5 h-5 rounded-full"
+                  className="w-5 h-5 rounded-full max-w-[24px] min-w-0"
+                  style={{ maxWidth: 24, minWidth: 0 }}
                 />
               </Link>
             </motion.div>
             {/* Buy $FLIRT — только на мобильных */}
-            <div className="flex sm:hidden items-center ml-auto mobile-pl-20">
+            <div className="flex sm:hidden flex-row items-center gap-2 ml-2 w-auto min-w-0">
               {connected && publicKey && (
-                tokenBalance !== '0' ? (
-                  <span className="text-white font-bold text-base bg-pink-500/80 rounded-lg px-3 py-1 mr-2">
-                    $FLIRT: {tokenBalance}
-                  </span>
-                ) : (
-                  <span className="text-gray-300 font-bold text-base bg-gray-700/80 rounded-lg px-3 py-1 mr-2">
-                    Balance: {formatBalanceMString(tokenBalance)}
-                  </span>
-                )
+                <span className="text-white font-bold text-lg bg-pink-500/80 rounded-lg h-9 flex items-center justify-center px-4">
+                  {formatBalanceMString(tokenBalance)}M
+                </span>
               )}
               <button
                 type="button"
                 onClick={handleBuyFlirt}
-                className="relative bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-lg text-base font-medium hover:from-pink-600 hover:to-purple-600 transition-all duration-200 transform hover:-translate-y-0.5 animate-borderGlow whitespace-nowrap"
+                className="relative bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold text-base rounded-lg min-w-[80px] h-9 flex items-center justify-center hover:from-pink-600 hover:to-purple-600 transition-all duration-200 text-center animate-borderGlow whitespace-nowrap overflow-hidden flex-shrink flex-grow"
+                style={{ fontSize: '1rem', padding: '0 10px' }}
               >
                 Buy $FLIRT
               </button>

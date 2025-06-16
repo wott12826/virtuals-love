@@ -8,7 +8,9 @@ interface ModalContextType {
   isModalOpen: boolean;
   selectedCharacter: number | null;
   userName: string;
-  openModal: (characterIndex: number) => void;
+  swapImage: string | null;
+  onlyfans: string | null;
+  openModal: (characterIndex: number, swapImage?: string | null, onlyfans?: string | null) => void;
   closeModal: () => void;
   handleSubmit: (name: string, age: number) => void;
 }
@@ -19,16 +21,22 @@ export function ModalProvider({ children }: { children: ReactNode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
   const [userName, setUserName] = useState('');
+  const [swapImage, setSwapImage] = useState<string | null>(null);
+  const [onlyfans, setOnlyfans] = useState<string | null>(null);
   const router = useRouter();
 
-  const openModal = (characterIndex: number) => {
+  const openModal = (characterIndex: number, swapImageArg?: string | null, onlyfansArg?: string | null) => {
     setSelectedCharacter(characterIndex);
+    setSwapImage(swapImageArg || null);
+    setOnlyfans(onlyfansArg || null);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedCharacter(null);
+    setSwapImage(null);
+    setOnlyfans(null);
   };
 
   const handleSubmit = (name: string, age: number) => {
@@ -49,6 +57,8 @@ export function ModalProvider({ children }: { children: ReactNode }) {
         isModalOpen,
         selectedCharacter,
         userName,
+        swapImage,
+        onlyfans,
         openModal,
         closeModal,
         handleSubmit,

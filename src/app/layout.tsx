@@ -11,8 +11,11 @@ import { WalletProvider } from './contexts/WalletContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Virtual Sugar Baby - Your Virtual Companion',
-  description: 'No girlfriend? No problem! Design and personalize your AI girlfriend today. Enjoy meaningful conversations, emotional support, and fun interactions tailored just for you. [ 690m total supply ]',
+  title: 'FLIRT GIRLS',
+  description: 'FLIRT GIRLS is a new way to connect with the internet\'s most irresistible personalities — reimagined as anime-style AI companions. We collaborate with real creators and models to bring their digital alter egos to life: flirty, stylized, and always online.',
+  icons: {
+    icon: '/images/favicon.png',
+  },
 };
 
 export default function RootLayout({

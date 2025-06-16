@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useModal } from '../contexts/ModalContext';
 
 interface WelcomeModalProps {
   onClose: () => void;
@@ -10,6 +11,7 @@ interface WelcomeModalProps {
 }
 
 export default function WelcomeModal({ onClose, onSubmit }: WelcomeModalProps) {
+  const { swapImage, onlyfans } = useModal();
   const [formData, setFormData] = useState({
     nickname: '',
     age: ''
@@ -56,7 +58,7 @@ export default function WelcomeModal({ onClose, onSubmit }: WelcomeModalProps) {
         <div className="relative h-40 sm:h-48 w-full overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 via-purple-500/30 to-blue-500/30 z-10" />
           <Image
-            src="/images/popup.webp"
+            src={swapImage || '/images/popup.webp'}
             alt="Welcome illustration"
             width={500}
             height={300}
@@ -77,32 +79,22 @@ export default function WelcomeModal({ onClose, onSubmit }: WelcomeModalProps) {
             <div className="text-center text-white">
               <h3 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">Hello!</h3>
               <p className="text-xs sm:text-sm font-light opacity-90">Let's Chat with your Dream girl!</p>
-              <div className="flex items-center justify-center gap-4 mt-3">
-                <a
-                  href="oldx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-pink-400 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-                </a>
-                <a
-                  href="https://t.me/FlirtGirlsSol"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-pink-400 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                </a>
-                <a
-                  href="oldlink"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white hover:text-pink-400 transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
-                </a>
-              </div>
+              {onlyfans && (
+                <div className="flex items-center justify-center mt-3">
+                  <a
+                    href={onlyfans}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <img
+                      src="/images/onlyfans.png"
+                      alt="OnlyFans"
+                      className="h-10 mx-auto object-contain"
+                    />
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>

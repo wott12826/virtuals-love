@@ -107,4 +107,15 @@ body {
   .text-shadow-dark-lg {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.75);
   }
+}
+
+@media (min-width: 640px) {
+  .mobile-pl-20 {
+    padding-left: 0 !important;
+  }
+}
+@media (max-width: 639px) {
+  .mobile-pl-20 {
+    padding-left: 5rem !important;
+  }
 } 

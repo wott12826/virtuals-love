@@ -146,12 +146,15 @@ export function WalletProvider({ children }: WalletProviderProps) {
     if (wallet) {
       try {
         setConnecting(true);
+        console.log('Connect Wallet button clicked, wallet:', wallet);
         await wallet.connect();
       } catch (error) {
         console.error('Failed to connect to wallet:', error);
       } finally {
         setConnecting(false);
       }
+    } else {
+      console.log('Connect Wallet button clicked, but wallet is null');
     }
   };
 

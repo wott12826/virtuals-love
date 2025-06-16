@@ -23,6 +23,7 @@ export default function ChatPage() {
   const { chatHistory, addMessage, getMessages, clearChat } = useChatContext();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [unlockedCharacters, setUnlockedCharacters] = useState<string[]>([]);
   
   const character = params?.character as string || '';
   const currentCharacter = characterList.find(c => c.id === character);
@@ -33,12 +34,19 @@ export default function ChatPage() {
       return;
     }
     
-    // Проверяем, является ли персонаж Rei и заблокирован ли он
-    if (currentCharacter.id === 'rei' && currentCharacter.locked) {
+    // Проверяем, является ли персонаж заблокированным и не разблокирован ли он локально
+    const unlockedCharacters = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('unlockedCharacters') || '[]') : [];
+    if (currentCharacter.locked && !unlockedCharacters.includes(currentCharacter.id)) {
       router.push('/');
       return;
     }
   }, [currentCharacter, router]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUnlockedCharacters(JSON.parse(localStorage.getItem('unlockedCharacters') || '[]'));
+    }
+  }, []);
 
   const currentMessages = getMessages(character);
 
@@ -93,9 +101,9 @@ export default function ChatPage() {
               <div
                 key={char.id}
                 className={`relative cursor-pointer transition-transform group ${
-                  char.locked ? 'cursor-not-allowed' : 'hover:scale-105'
+                  char.locked && !unlockedCharacters.includes(char.id) ? 'cursor-not-allowed' : 'hover:scale-105'
                 }`}
-                onClick={() => !char.locked && router.push(`/chat/${char.id}`)}
+                onClick={() => !char.locked || unlockedCharacters.includes(char.id) ? router.push(`/chat/${char.id}`) : null}
               >
                 <div className="relative w-12 h-12 rounded-full overflow-hidden">
                   <Image
@@ -103,9 +111,9 @@ export default function ChatPage() {
                     alt={char.name}
                     width={48}
                     height={48}
-                    className={`w-full h-full object-cover ${char.locked ? 'blur-sm brightness-75' : ''}`}
+                    className={`w-full h-full object-cover ${char.locked && !unlockedCharacters.includes(char.id) ? 'blur-sm brightness-75' : ''}`}
                   />
-                  {char.locked && (
+                  {char.locked && !unlockedCharacters.includes(char.id) && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -125,12 +133,12 @@ export default function ChatPage() {
                     </div>
                   )}
                 </div>
-                {char.locked && (
+                {char.locked && !unlockedCharacters.includes(char.id) && (
                   <div className="absolute left-full ml-2 px-2 py-1 bg-black/80 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    1,000,000 $SUGAR required
+                    {char.id === 'rei' ? '1M' : '100M'} $FLIRT required
                   </div>
                 )}
-                {getMessages(char.id).length > 0 && !char.locked && (
+                {getMessages(char.id).length > 0 && (!char.locked || unlockedCharacters.includes(char.id)) && (
                   <div className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 rounded-full"></div>
                 )}
               </div>

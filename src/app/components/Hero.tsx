@@ -158,7 +158,7 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => setShowModal(false)}
-                className="text-white underline text-sm mt-2"
+                className="bg-pink-500 text-white font-bold rounded py-2 hover:bg-pink-600 transition-colors"
               >
                 Cancel
               </button>

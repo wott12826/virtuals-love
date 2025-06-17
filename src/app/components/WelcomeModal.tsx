@@ -64,17 +64,6 @@ export default function WelcomeModal({ onClose, onSubmit }: WelcomeModalProps) {
             height={300}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 z-20">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart absolute top-4 sm:top-6 right-6 sm:right-8 text-pink-400 animate-pulse">
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart absolute top-8 sm:top-12 left-6 sm:left-8 text-pink-300 animate-bounce">
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart absolute bottom-6 sm:bottom-8 right-8 sm:right-12 text-pink-500 animate-pulse">
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-            </svg>
-          </div>
           <div className="absolute inset-0 flex items-center justify-center z-30 bg-gradient-to-t from-black/50 via-transparent to-transparent">
             <div className="text-center text-white">
               <h3 className="text-2xl sm:text-3xl font-bold mb-1 sm:mb-2">Hello!</h3>

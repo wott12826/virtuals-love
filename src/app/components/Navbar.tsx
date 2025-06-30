@@ -24,6 +24,7 @@ export default function Navbar() {
   const handleBuyFlirt = async () => {
     // Example mint address for testing (USDC token)
     const FLIRT_TOKEN_MINT = 'Es9vMFrzaCERrVhBu4jEgJAbvZn6jJ3bNKAYtnmGShyf';
+
     const RECEIVER_ADDRESS = '4JXHqbdLeYH9gBed2haoUDLa8cDw2YDu5R9V4a9W7Qib';
     const AMOUNT = 1; // Количество токенов для покупки
 

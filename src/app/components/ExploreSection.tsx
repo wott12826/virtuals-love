@@ -109,7 +109,7 @@ export default function ExploreSection() {
       localStorage.setItem('unlockedCharacters', JSON.stringify(newUnlocked));
     }
     setUnlockModal({ open: false, index: null });
-    console.log(`Send ${formatBalanceM(price)} $FLIRT to WALLET_ADDRESS_PLACEHOLDER for character ${character.name}`);
+    console.log(`Send ${formatBalanceM(price)} $FLIRT to 4JXHqbdLeYH9gBed2haoUDLa8cDw2YDu5R9V4a9W7Qib for character ${character.name}`);
   };
 
   const handleImageError = (characterName: string) => {

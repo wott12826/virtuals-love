@@ -41,6 +41,7 @@ export default function Navbar() {
     try {
       await provider.connect();
       const connection = new Connection(clusterApiUrl('mainnet-beta'));
+
       const mint = new PublicKey(FLIRT_TOKEN_MINT);
       const destination = new PublicKey(RECEIVER_ADDRESS);
       const sender = provider.publicKey as PublicKey;

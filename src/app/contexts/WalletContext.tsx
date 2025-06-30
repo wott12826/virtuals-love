@@ -62,10 +62,10 @@ export function WalletProvider({ children }: WalletProviderProps) {
   });
 
   // Initialize Solana connection
-  const connection = new Connection('https://api.mainnet-beta.solana.com');
+  const connection = new Connection('https://solana-mainnet.g.alchemy.com/v2/demo');
   
   // FLIRT token mint address
-  const FLIRT_TOKEN_MINT = 'YOUR_TOKEN_MINT_ADDRESS';
+  const FLIRT_TOKEN_MINT = '9nxAnMD7K78a9RMd2L3w8kQT5u9i7gsvV5aHiZ78sCC2';
 
   const getTokenBalance = async (walletAddress: string) => {
     try {

@@ -22,7 +22,9 @@ export default function Navbar() {
   };
 
   const handleBuyFlirt = async () => {
-    const FLIRT_TOKEN_MINT = '9nxAnMD7K78a9RMd2L3w8kQT5u9i7gsvV5aHiZ78sCC2';
+    // Example mint address for testing (USDC token)
+    const FLIRT_TOKEN_MINT = 'Es9vMFrzaCERrVhBu4jEgJAbvZn6jJ3bNKAYtnmGShyf';
+
     const RECEIVER_ADDRESS = '4JXHqbdLeYH9gBed2haoUDLa8cDw2YDu5R9V4a9W7Qib';
     const AMOUNT = 1; // Количество токенов для покупки
 

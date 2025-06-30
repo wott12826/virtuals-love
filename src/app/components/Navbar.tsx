@@ -5,6 +5,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWallet } from '../contexts/WalletContext';
+import { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import {
+  createAssociatedTokenAccountInstruction,
+  createTransferCheckedInstruction,
+  getAssociatedTokenAddress,
+  getMint
+} from '@solana/spl-token';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,8 +22,8 @@ export default function Navbar() {
   };
 
   const handleBuyFlirt = async () => {
-    const FLIRT_TOKEN_MINT = 'FLIRT_TOKEN_MINT_PLACEHOLDER';
-    const RECEIVER_ADDRESS = 'RECEIVER_ADDRESS_PLACEHOLDER';
+    const FLIRT_TOKEN_MINT = '9nxAnMD7K78a9RMd2L3w8kQT5u9i7gsvV5aHiZ78sCC2';
+    const RECEIVER_ADDRESS = '4JXHqbdLeYH9gBed2haoUDLa8cDw2YDu5R9V4a9W7Qib';
     const AMOUNT = 1; // Количество токенов для покупки
 
     if (typeof window === 'undefined' || !window.solana) {
@@ -31,15 +38,54 @@ export default function Navbar() {
     }
 
     try {
-      // Подключение кошелька, если не подключён
-      const resp = await provider.connect();
-      const publicKey = resp.publicKey?.toString() || 'unknown';
-      // Здесь будет логика создания и отправки транзакции
-      alert(
-        `Phantom подключён!\n\nMint: ${FLIRT_TOKEN_MINT}\nПолучатель: ${RECEIVER_ADDRESS}\nСумма: ${AMOUNT}\n\n(Здесь будет отправка транзакции)`
+      await provider.connect();
+      const connection = new Connection('https://api.mainnet-beta.solana.com');
+      const mint = new PublicKey(FLIRT_TOKEN_MINT);
+      const destination = new PublicKey(RECEIVER_ADDRESS);
+      const sender = provider.publicKey as PublicKey;
+
+      const mintInfo = await getMint(connection, mint);
+      const fromTokenAccount = await getAssociatedTokenAddress(mint, sender);
+      const toTokenAccount = await getAssociatedTokenAddress(mint, destination);
+
+      const transaction = new Transaction();
+
+      const toAccountInfo = await connection.getAccountInfo(toTokenAccount);
+      if (!toAccountInfo) {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            sender,
+            toTokenAccount,
+            destination,
+            mint
+          )
+        );
+      }
+
+      const amount = AMOUNT * 10 ** mintInfo.decimals;
+      transaction.add(
+        createTransferCheckedInstruction(
+          fromTokenAccount,
+          mint,
+          toTokenAccount,
+          sender,
+          amount,
+          mintInfo.decimals
+        )
       );
-    } catch (e) {
-      alert('Не удалось подключить Phantom или пользователь отменил подключение.');
+
+      transaction.feePayer = sender;
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+
+      const signed = await provider.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
+
+      alert(`Транзакция отправлена! Signature: ${signature}`);
+    } catch (e: any) {
+      console.error('Transaction error', e);
+      alert('Ошибка при отправке транзакции: ' + (e.message || e));
     }
   };
 

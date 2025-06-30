@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWallet } from '../contexts/WalletContext';
-import { Connection, PublicKey, Transaction } from '@solana/web3.js';
+import { Connection, PublicKey, Transaction, clusterApiUrl } from '@solana/web3.js';
 import {
   createAssociatedTokenAccountInstruction,
   createTransferCheckedInstruction,
@@ -22,9 +22,8 @@ export default function Navbar() {
   };
 
   const handleBuyFlirt = async () => {
-    // Example mint address for testing (USDC token)
-    const FLIRT_TOKEN_MINT = 'Es9vMFrzaCERrVhBu4jEgJAbvZn6jJ3bNKAYtnmGShyf';
-
+    // FLIRT token mint
+    const FLIRT_TOKEN_MINT = '9nxAnMD7K78a9RMd2L3w8kQT5u9i7gsvV5aHiZ78sCC2';
     const RECEIVER_ADDRESS = '4JXHqbdLeYH9gBed2haoUDLa8cDw2YDu5R9V4a9W7Qib';
     const AMOUNT = 1; // Количество токенов для покупки
 
@@ -41,7 +40,8 @@ export default function Navbar() {
 
     try {
       await provider.connect();
-      const connection = new Connection('https://solana-mainnet.g.alchemy.com/v2/demo');
+      const connection = new Connection(clusterApiUrl('mainnet-beta'));
+
       const mint = new PublicKey(FLIRT_TOKEN_MINT);
       const destination = new PublicKey(RECEIVER_ADDRESS);
       const sender = provider.publicKey as PublicKey;

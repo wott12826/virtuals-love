@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 
 // Add type declaration for window.solana
 declare global {
@@ -62,10 +62,10 @@ export function WalletProvider({ children }: WalletProviderProps) {
   });
 
   // Initialize Solana connection
-  const connection = new Connection('https://solana-mainnet.g.alchemy.com/v2/demo');
+  const connection = new Connection(clusterApiUrl('mainnet-beta'));
   
-  // Example token mint address for testing (USDC)
-  const FLIRT_TOKEN_MINT = 'Es9vMFrzaCERrVhBu4jEgJAbvZn6jJ3bNKAYtnmGShyf';
+  // FLIRT token mint
+  const FLIRT_TOKEN_MINT = '9nxAnMD7K78a9RMd2L3w8kQT5u9i7gsvV5aHiZ78sCC2';
 
   const getTokenBalance = async (walletAddress: string) => {
     try {
